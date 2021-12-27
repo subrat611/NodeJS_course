@@ -1,0 +1,23 @@
+{
+  "name": "js_experiment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/subrat611/NodeJS_course.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/subrat611/NodeJS_course/issues"
+  },
+  "homepage": "https://github.com/subrat611/NodeJS_course#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
