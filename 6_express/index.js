@@ -93,9 +93,15 @@ app.post('/api/courses/', (req, res) => {
     courses.push(course);
     res.send(course);
 })
-
+statusbar
 
 // Handling HTTP PUT req
 
 
 app.listen(3000, () => console.log("Listening on port 3000"));
+
+
+//  end of line
+//  git config --global user.name 
+//  git config --global user.email
+//  git config --global core.editor "code --wait"
