@@ -104,3 +104,6 @@ app.listen(3000, () => console.log("Listening on port 3000"));
 //  git config --global user.name 
 //  git config --global user.email
 //  git config --global core.editor "code --wait"
+//  omit --global to set settings for this repo only
+
+statusbar
