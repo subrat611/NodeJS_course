@@ -123,7 +123,7 @@ app.put("api/courses/:id", (req, res) => {
     res.send(course);
 });
 
-app.listen(4000, () => console.log("Listening on port 3000"));
+app.listen(3000, () => console.log("Listening on port 3000"));
 
 
 //  end of line
