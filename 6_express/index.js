@@ -93,7 +93,6 @@ app.post('/api/courses/', (req, res) => {
     courses.push(course);
     res.send(course);
 })
-statusbar
 
 // Handling HTTP PUT req
 
