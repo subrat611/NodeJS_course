@@ -1,4 +1,4 @@
-const http = require('http');
+const http = require("http");
 
 // const server = http.createServer((req, res) => {
 //     if (req.url === '/') {
@@ -33,7 +33,6 @@ app.get('/', (req, res) => {
 app.get('/api/data', (req, res) => {
     res.send(JSON.stringify(["Node JS", "PHP", "JAVA"]));
 });
-
 
 // Read Route parameter
 
@@ -86,7 +85,7 @@ app.post('/api/courses/', (req, res) => {
 
     const course = {
         id: courses.length + 1,
-        // if the name is short or invalid 
+        // if the name is short or invalid
         // then we do some input validation
         name: req.body.name,
     };
@@ -96,12 +95,39 @@ app.post('/api/courses/', (req, res) => {
 
 // Handling HTTP PUT req
 
+app.put("api/courses/:id", (req, res) => {
+    
+    // Look for the course available or not
+    // if not exitsing return 404
+    const course = courses.find((c) => c.id === parseInt(req.params.id));
+    if (!course) res.status(404).send("Course not found");
+    
 
-app.listen(3000, () => console.log("Listening on port 3000"));
+    // if exit
+    // validate
+    // if invalid return 400 - bad request
+    const schema = {
+        name: Joi.string().min(3).required(),
+    };
+    
+    const result = Joi.validate(req.body, schema);
+    if (result.error) {
+        res.status(400).send(result.error.details[0].message);
+        return;
+    }
+
+    // if valid
+    // update course
+    // return the updated course
+    course.name = req.body.name;
+    res.send(course);
+});
+
+app.listen(4000, () => console.log("Listening on port 3000"));
 
 
 //  end of line
-//  git config --global user.name 
+//  git config --global user.name
 //  git config --global user.email
 //  git config --global core.editor "code --wait"
 //  omit --global to set settings for this repo only
