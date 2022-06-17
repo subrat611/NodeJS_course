@@ -94,4 +94,8 @@ app.post('/api/courses/', (req, res) => {
     res.send(course);
 })
 
+
+// Handling HTTP PUT req
+
+
 app.listen(3000, () => console.log("Listening on port 3000"));
