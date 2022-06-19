@@ -27,12 +27,17 @@ const app = express();
 
 app.use(express.json());
 
+// req.body is look like key=value&key=value
+app.use(express.urlencoded({ extended: true})); 
+// another inbuilt middleware function
+app.use(express.static('public'));
+
 // custom middleware function
 app.use(logger);
 app.use(auth);
 
 app.get('/', (req, res) => {
-    res.send("Home Page");
+     res.send("Home Page");
 });
 
 app.get('/api/data', (req, res) => {
