@@ -1,5 +1,6 @@
-const http = require("http");
-
+// const http = require("http");
+const logger = require("./logger");
+const auth = require("./auth");
 // const server = http.createServer((req, res) => {
 //     if (req.url === '/') {
 //         res.write("Home Page");
@@ -26,6 +27,10 @@ const app = express();
 
 app.use(express.json());
 
+// custom middleware function
+app.use(logger);
+app.use(auth);
+
 app.get('/', (req, res) => {
     res.send("Home Page");
 });
@@ -44,27 +49,27 @@ app.get('/api/courses/:id/:name', (req, res) => {
 const courses = [
     {
         id: 1,
-        title: 'A'
+        name: 'A'
     },
     {
         id: 2,
-        title: 'B'
+        name: 'B'
     },
     {
         id: 3,
-        title: 'C'
+        name: 'C'
     }
 ];
 
 app.get('/api/courses/:id', (req, res) => {
     const course = courses.find((c) => c.id === parseInt(req.params.id));
-    if (!course) res.status(404).send("Course not found");
+    if (!course) return res.status(404).send("Course not found");
     res.send(course);
 })
 
 // Handling HTTP POST req
 
-app.post('/api/courses/', (req, res) => {
+app.post('/api/courses/:name', (req, res) => {
     // using joi
     const schema = {
         name: Joi.string().min(3).required(),
@@ -95,24 +100,26 @@ app.post('/api/courses/', (req, res) => {
 
 // Handling HTTP PUT req
 
-app.put("api/courses/:id", (req, res) => {
+app.put("/api/courses/:id", (req, res) => {
     
     // Look for the course available or not
     // if not exitsing return 404
     const course = courses.find((c) => c.id === parseInt(req.params.id));
-    if (!course) res.status(404).send("Course not found");
+    if (!course) return res.status(404).send("Course not found");
     
 
     // if exit
     // validate
     // if invalid return 400 - bad request
-    const schema = {
-        name: Joi.string().min(3).required(),
-    };
+    // const schema = {
+    //     name: Joi.string().min(3).required(),
+    // };
     
-    const result = Joi.validate(req.body, schema);
-    if (result.error) {
-        res.status(400).send(result.error.details[0].message);
+    // const result = validateCourse(req.body);
+    const { error } = validateCourse(req.body);
+
+    if (error) {
+        res.status(400).send(error.details[0].message);
         return;
     }
 
@@ -122,6 +129,30 @@ app.put("api/courses/:id", (req, res) => {
     course.name = req.body.name;
     res.send(course);
 });
+
+function validateCourse(course) {
+    const schema = {
+        name: Joi.string().min(3).required()
+    };
+
+    return Joi.validate(course,schema);
+}
+
+
+// Handling HTTP Delete req
+app.delete('/api/courses/:id', (req, res) => {
+    // look up the course
+    // not exit, return 404
+    const course = courses.find((c) => c.id === parseInt(req.params.id));
+    if (!course) return res.status(404).send("Course not found");
+
+    // Delete
+    const index = courses.indexOf(course);
+    courses.splice(index,1);
+
+    // return the same course
+    res.send(course);
+})
 
 app.listen(3000, () => console.log("Listening on port 3000"));
 
