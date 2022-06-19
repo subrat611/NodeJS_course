@@ -37,7 +37,7 @@ app.use(logger);
 app.use(auth);
 
 app.get('/', (req, res) => {
-     res.send("Home Page");
+    res.send("Home Page");
 });
 
 app.get('/api/data', (req, res) => {
